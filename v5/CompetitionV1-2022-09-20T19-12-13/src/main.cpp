@@ -13,6 +13,9 @@
 #include "vex.h"
 
 using namespace vex;
+
+vex::competition Competition;
+
 extern controller Controller1;
 extern motor Left1;
 extern motor Left2;
@@ -64,7 +67,7 @@ void driveControl()
   if (Controller1.ButtonA.pressing())
   {
     intakeb.spin(reverse, 100, pct);
-    intaket.spin(reverse,100,pct);
+    intaket.spin(reverse, 100, pct);
   }
   else
   {
@@ -79,6 +82,23 @@ void driveControl()
   {
     flywheel.stop();
   }
+  if (Controller1.ButtonX.pressing())
+  {
+    intakeb.spin(forward, 100, pct);
+  }
+  else
+  {
+    intakeb.stop();
+  }
+
+  if (Controller1.ButtonY.pressing())
+  {
+    pneum.set(false);
+  }
+  else
+  {
+    pneum.set(true);
+  }
 }
 void userControl()
 {
@@ -88,11 +108,26 @@ void userControl()
   }
 }
 
+void auton()
+{
+  Left1.spin(forward, 100, pct);
+  Left2.spin(forward, 100, pct);
+  Right1.spin(forward, 100, pct);
+  Right2.spin(forward, 100, pct);
+  wait(3000, msec);
+  Left1.stop();
+  Left2.stop();
+  Right1.stop();
+  Right2.stop();
+}
+
 int main()
 {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
   // test();
-  userControl();
+  Competition.autonomous(auton);
+  Competition.drivercontrol(driveControl);
+  // userControl();
   // pneum_test();
 }
