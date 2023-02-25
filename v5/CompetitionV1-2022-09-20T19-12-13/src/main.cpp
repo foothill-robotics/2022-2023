@@ -18,6 +18,38 @@ extern motor Left1;
 extern motor Left2;
 extern motor Right1;
 extern motor Right2;
+extern motor_group flywheel;
+extern motor intakeb;
+extern motor intaket;
+
+extern digital_out pneum;
+
+void pneum_test()
+{
+  while (1)
+  {
+    if (Controller1.ButtonA.pressing())
+    {
+      pneum.set(false);
+    }
+    else if (Controller1.ButtonB.pressing())
+    {
+      pneum.set(true);
+    }
+  }
+}
+
+void test()
+{
+  while (1)
+  {
+    if (Controller1.ButtonA.pressing())
+    {
+      Left1.spin(forward, 100, pct);
+      Left2.spin(forward, 100, pct);
+    }
+  }
+}
 
 void driveControl()
 {
@@ -29,8 +61,25 @@ void driveControl()
   Left2.spin(forward, speed + turn - strafe, pct);
   Right1.spin(forward, speed - turn - strafe, pct);
   Right2.spin(forward, speed - turn + strafe, pct);
+  if (Controller1.ButtonA.pressing())
+  {
+    intakeb.spin(reverse, 100, pct);
+    intaket.spin(reverse,100,pct);
+  }
+  else
+  {
+    intakeb.stop();
+    intaket.stop();
+  }
+  if (Controller1.ButtonB.pressing())
+  {
+    flywheel.spin(forward, 100, pct);
+  }
+  else
+  {
+    flywheel.stop();
+  }
 }
-
 void userControl()
 {
   while (1)
@@ -43,4 +92,7 @@ int main()
 {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
+  // test();
+  userControl();
+  // pneum_test();
 }
