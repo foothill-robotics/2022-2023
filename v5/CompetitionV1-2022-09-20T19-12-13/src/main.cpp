@@ -48,8 +48,7 @@ void test()
   {
     if (Controller1.ButtonA.pressing())
     {
-      Left1.spin(forward, 100, pct);
-      Left2.spin(forward, 100, pct);
+      intakeb.spin(reverse, 100, pct);
     }
   }
 }
@@ -69,6 +68,11 @@ void driveControl()
     intakeb.spin(reverse, 100, pct);
     intaket.spin(reverse, 100, pct);
   }
+  else if (Controller1.ButtonX.pressing())
+  {
+    intakeb.spin(forward, 100, pct);
+    intaket.stop();
+  }
   else
   {
     intakeb.stop();
@@ -82,22 +86,14 @@ void driveControl()
   {
     flywheel.stop();
   }
-  if (Controller1.ButtonX.pressing())
-  {
-    intakeb.spin(forward, 100, pct);
-  }
-  else
-  {
-    intakeb.stop();
-  }
 
   if (Controller1.ButtonY.pressing())
   {
-    pneum.set(false);
+    pneum.set(true);
   }
   else
   {
-    pneum.set(true);
+    pneum.set(false);
   }
 }
 void userControl()
@@ -110,15 +106,40 @@ void userControl()
 
 void auton()
 {
-  Left1.spin(forward, 100, pct);
-  Left2.spin(forward, 100, pct);
-  Right1.spin(forward, 100, pct);
-  Right2.spin(forward, 100, pct);
-  wait(3000, msec);
+  Left1.spin(reverse, 100, pct);
+  Left2.spin(reverse, 100, pct);
+  Right1.spin(reverse, 100, pct);
+  Right2.spin(reverse, 100, pct);
+  intakeb.spin(reverse, 100, pct);
+  wait(1000, msec);
   Left1.stop();
   Left2.stop();
   Right1.stop();
   Right2.stop();
+  wait(2000,msec);
+  intakeb.stop();
+
+
+  Left1.spin(forward, 100, pct);
+  Left2.spin(forward, 100, pct);
+  Right1.spin(forward, 100, pct);
+  Right2.spin(forward, 100, pct);
+  wait(1000, msec);
+  Right1.spin(reverse, 100, pct);
+  Right2.spin(reverse, 100, pct);
+  wait(2000, msec);
+  Left1.stop();
+  Left2.stop();
+  Right1.stop();
+  Right2.stop();
+
+  flywheel.spin(forward, 100, pct);
+  intakeb.spin(reverse, 100, pct);
+  intaket.spin(reverse, 100, pct);
+  wait(6000, msec);
+  flywheel.stop();
+  intakeb.stop();
+  intaket.stop();
 }
 
 int main()
@@ -127,7 +148,7 @@ int main()
   vexcodeInit();
   // test();
   Competition.autonomous(auton);
-  Competition.drivercontrol(driveControl);
+  Competition.drivercontrol(userControl);
   // userControl();
   // pneum_test();
 }
