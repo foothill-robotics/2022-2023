@@ -48,7 +48,18 @@ void test()
   {
     if (Controller1.ButtonA.pressing())
     {
+      Left1.spin(reverse, 100, pct);
+      Left2.spin(reverse, 100, pct);
+      Right1.spin(reverse, 100, pct);
+      Right2.spin(reverse, 100, pct);
       intakeb.spin(reverse, 100, pct);
+      wait(1000, msec);
+      Left1.stop();
+      Left2.stop();
+      Right1.stop();
+      Right2.stop();
+      wait(5000, msec);
+      intakeb.stop();
     }
   }
 }
@@ -59,14 +70,15 @@ void driveControl()
   double turn = Controller1.Axis1.value();
   double strafe = Controller1.Axis4.value();
 
-  Left1.spin(forward, speed + turn + strafe, pct);
-  Left2.spin(forward, speed + turn - strafe, pct);
-  Right1.spin(forward, speed - turn - strafe, pct);
-  Right2.spin(forward, speed - turn + strafe, pct);
+  Left1.spin(reverse, speed + turn + strafe, pct);
+  Left2.spin(reverse, speed + turn - strafe, pct);
+  Right1.spin(reverse, speed - turn - strafe, pct);
+  Right2.spin(reverse, speed - turn + strafe, pct);
   if (Controller1.ButtonA.pressing())
   {
     intakeb.spin(reverse, 100, pct);
     intaket.spin(reverse, 100, pct);
+    flywheel.spin(forward, 100, pct);
   }
   else if (Controller1.ButtonX.pressing())
   {
@@ -77,13 +89,6 @@ void driveControl()
   {
     intakeb.stop();
     intaket.stop();
-  }
-  if (Controller1.ButtonB.pressing())
-  {
-    flywheel.spin(forward, 100, pct);
-  }
-  else
-  {
     flywheel.stop();
   }
 
@@ -116,30 +121,8 @@ void auton()
   Left2.stop();
   Right1.stop();
   Right2.stop();
-  wait(2000,msec);
+  wait(5000, msec);
   intakeb.stop();
-
-
-  Left1.spin(forward, 100, pct);
-  Left2.spin(forward, 100, pct);
-  Right1.spin(forward, 100, pct);
-  Right2.spin(forward, 100, pct);
-  wait(1000, msec);
-  Right1.spin(reverse, 100, pct);
-  Right2.spin(reverse, 100, pct);
-  wait(2000, msec);
-  Left1.stop();
-  Left2.stop();
-  Right1.stop();
-  Right2.stop();
-
-  flywheel.spin(forward, 100, pct);
-  intakeb.spin(reverse, 100, pct);
-  intaket.spin(reverse, 100, pct);
-  wait(6000, msec);
-  flywheel.stop();
-  intakeb.stop();
-  intaket.stop();
 }
 
 int main()
